@@ -89,3 +89,23 @@
 </style>
 
 {% endblock %}
+
+{% block script %}
+  <script type="text/javascript">
+    $( document ).ready(function() {
+      console.log('ready')
+
+      $(window).resize(function(){
+         if ($('.container').width() <= 890 ){
+
+               $(".container").css("max-width", "90vw");
+
+              } else {
+
+                $(".container").css("max-width", "90vw");
+              }
+        });
+
+    });
+  </script>
+{% endblock script %}

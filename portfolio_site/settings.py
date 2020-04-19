@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from . import vault
+from .vault import DATABASE_PASSWORD
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,8 +39,9 @@ SECRET_KEY = vault.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#SECURE_SSL_REDIRECT = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','food-portfolio-274706.appspot.com','https://food-portfolio-274706.wl.r.appspot.com', 'food-portfolio-274706.wl.r.appspot.com']
 
 
 # Application definition
@@ -90,12 +91,42 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
+
+
+#________________GOOGLE CLOUD SQL SETUP___________________#
+if os.getenv('GAE_APPLICATION', None):
+    # Running on production App Engine, so connect to Google Cloud SQL using
+    # the unix socket at /cloudsql/<your-cloudsql-connection string>
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'HOST': '/cloudsql/food-portfolio-274706:us-west1:food-portfolio-db',
+            'USER': 'info@mitchkoj.com',
+            'PASSWORD': DATABASE_PASSWORD,
+            'NAME': 'django-db',
+        }
     }
-}
+else:
+    # Running locally so connect to either a local MySQL instance or connect
+    # to Cloud SQL via the proxy.  To start the proxy via command line:
+    #    $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'NAME': 'django-db',
+            'USER': 'info@mitchkoj.com',
+            'PASSWORD': DATABASE_PASSWORD,
+        }
+    }
+#__________________END SETUP_____________________________#
 
 
 # Password validation

@@ -4,7 +4,7 @@
 {% block page_content %}
 <h1 id="title-h5">{{ project.title }}</h1>
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-8 video-wrapper">
       <video width="100%" height="auto" controls>
         <source src="/{{ project.video.url }}" alt="" width="100%" type="video/mp4">
         <source src="/{{ project.video.url }}" alt="" width="100%" type="video/ogg">
@@ -216,8 +216,43 @@
     color: #222222;
   }
 
+  .navbar-light .navbar-toggler {
+    border-color: #fff;
+  }
+
+
 
 </style>
 
+{% endblock %}
 
-{% endblock page_content%}
+{% block script %}
+  <script type="text/javascript">
+    $( document ).ready(function() {
+      console.log('ready')
+
+      $(window).resize(function(){
+         if ($('.container').width() <= 890 ){
+               $(".video-wrapper").removeClass("col-md-8").addClass("row");
+               $(".content-section").removeClass("col-md-4").addClass("row");
+
+               $(".content-section").css("margin-top", "30px");
+               $(".container").css("max-width", "90vw");
+
+              } else {
+
+                console.log('else protocol')
+                console.log($('.container').width())
+
+                $(".video-wrapper").removeClass("row").addClass("col-md-8");
+                $(".content-section").removeClass("row").addClass("col-md-4");
+
+
+                $(".content-section").css("margin-top", "0");
+                $(".container").css("max-width", "90vw");
+              }
+        });
+
+    });
+  </script>
+{% endblock script %}
