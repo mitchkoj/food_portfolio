@@ -3,9 +3,9 @@ from django.db import models
 class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    technology = models.CharField(max_length=20)
+    items = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='static/img/', blank=True, null=True)
-    video = models.FileField(upload_to='static/videos/', null=True, verbose_name="")
+    video = models.FileField(upload_to='static/videos/', null=True, blank=True)
     #image = models.FilePathField(path="/img")
 
     def __str__(self):

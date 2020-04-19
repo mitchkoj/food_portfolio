@@ -21,6 +21,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+try:
+    from .vault import SECRET_KEY
+    from . import vault
+except:
+    from django.core.management.utils import get_random_secret_key
+    key = get_random_secret_key()
+
+    # write key to file
+    f = open("/portfolio_site/vault.py", "w")
+    f.write(f"SECRET_KEY = '{key}'")
+    f.close()
+
+    from . import vault
 SECRET_KEY = vault.SECRET_KEY
 
 
