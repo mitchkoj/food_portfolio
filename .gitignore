@@ -3,3 +3,4 @@ portfolio_site/vault.py
 __pycache__
 migrations/
 static/admin
+.DS_Store
